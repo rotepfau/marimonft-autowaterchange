@@ -32,7 +32,6 @@ const main = async () => {
 let inCheck = false;
 const checkLife = async (bh) => {
    if (inCheck) return;
-   console.log("# Checking life");
    inCheck = true;
    const feeData = await provider.getFeeData();
    const gasPrice = feeData.gasPrice;
