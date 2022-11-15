@@ -57,7 +57,9 @@ const checkLife = async (bh) => {
          return;
       }
       //logic
-      await marimoContract.changeWater(ownedMarimos[i]);
+      await marimoContract.changeWater(ownedMarimos[i], {
+         gasPrice: gasThreshold,
+      });
    }
    inCheck = false;
 };
