@@ -26,11 +26,13 @@ const main = async () => {
    console.log("# Setting up...");
    await setup();
    console.log("# Listening...");
-   provider.on("block", checkLife);
+   setInterval(() => {
+      checkLife();
+   }, 5000);
 };
 
 let inCheck = false;
-const checkLife = async (bh) => {
+const checkLife = async () => {
    if (inCheck) return;
    inCheck = true;
    const feeData = await provider.getFeeData();
