@@ -27,6 +27,7 @@ const main = async () => {
    await setup();
    console.log("# Listening...");
    setInterval(() => {
+      console.log("# Trigger");
       checkLife();
    }, 5000);
 };
@@ -58,6 +59,7 @@ const checkLife = async () => {
          return;
       }
       //logic
+      console.log("changing marimo water");
       await marimoContract.changeWater(ownedMarimos[i], {
          gasPrice: gasThreshold,
       });
