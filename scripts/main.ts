@@ -62,6 +62,7 @@ const checkLife = async () => {
       console.log("changing marimo water");
       await marimoContract.changeWater(ownedMarimos[i], {
          gasPrice: gasThreshold,
+         gasLimit: 300000,
       });
    }
    inCheck = false;
