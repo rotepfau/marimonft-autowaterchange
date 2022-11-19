@@ -26,46 +26,45 @@ const main = async () => {
    console.log("# Setting up...");
    await setup();
    console.log("# Listening...");
-   setInterval(() => {
-      console.log("# Trigger");
-      checkLife();
-   }, 5000);
+   await checkLife();
 };
 
-let inCheck = false;
 const checkLife = async () => {
-   if (inCheck) return;
-   inCheck = true;
-   const feeData = await provider.getFeeData();
-   const gasPrice = feeData.gasPrice;
-   const gasThreshold = utils.parseUnits(config.gasPrice, "gwei");
-   if (gasPrice?.gt(gasThreshold)) {
-      console.log("gas too expensive");
-      inCheck = false;
-      return;
-   }
-   for (let i = 0; i < ownedMarimos.length; i++) {
-      const timeElapsed = Number(
-         utils.formatUnits(
-            await marimoContract.getElapsedTimeFromLastWaterChanged(
-               ownedMarimos[i]
-            ),
-            0
-         )
-      );
-      if (timeElapsed < 60 * 60 * 24 * dirtinessThreshold) {
-         console.log("marimo life is good");
-         inCheck = false;
-         return;
+   await new Promise((r) => setTimeout(r, 5000));
+   try {
+      const feeData = await provider.getFeeData();
+      const gasPrice = feeData.gasPrice;
+      const gasThreshold = utils.parseUnits(config.gasPrice, "gwei");
+      if (gasPrice?.gt(gasThreshold)) {
+         console.log("gas too expensive");
+         return await checkLife();
       }
-      //logic
-      console.log("changing marimo water");
-      await marimoContract.changeWater(ownedMarimos[i], {
-         gasPrice: gasThreshold,
-         gasLimit: 300000,
-      });
+      for (let i = 0; i < ownedMarimos.length; i++) {
+         const timeElapsed = Number(
+            utils.formatUnits(
+               await marimoContract.getElapsedTimeFromLastWaterChanged(
+                  ownedMarimos[i]
+               ),
+               0
+            )
+         );
+         if (timeElapsed < 60 * 60 * 24 * dirtinessThreshold) {
+            console.log("marimo life is good");
+            return;
+         }
+         //logic
+         console.log("changing marimo water");
+         const tx = await marimoContract.changeWater(ownedMarimos[i], {
+            gasPrice: gasThreshold,
+            gasLimit: 300000,
+         });
+         await tx.wait();
+      }
+      await checkLife();
+   } catch (err) {
+      console.log(err);
+      await checkLife();
    }
-   inCheck = false;
 };
 
 const setup = async () => {
