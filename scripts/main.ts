@@ -50,7 +50,7 @@ const checkLife = async () => {
          );
          if (timeElapsed < 60 * 60 * 24 * dirtinessThreshold) {
             console.log("marimo life is good");
-            return;
+            continue;
          }
          //logic
          console.log("changing marimo water");
