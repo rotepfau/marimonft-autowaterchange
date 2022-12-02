@@ -1,12 +1,11 @@
 {
    "name": "marimonft-autowaterchange",
    "version": "1.0.0",
-   "description": "This node script will change your marimo nft water automatically when water clarity and gas price is b elow of your desire",
-   "main": "index.js",
+   "description": "This node script will change your marimo nft water automatically when water clarity and gas price is below of your desire",
    "repository": "git@github.com:rotepfau/marimonft-autowaterchange.git",
    "author": "rotepfau",
    "license": "GNU GPLv3",
-   "private": true,
+   "private": false,
    "scripts": {
       "start": "ts-node ./scripts/main"
    },

@@ -1,10 +1,10 @@
-import { ethers, utils, BigNumber } from "ethers";
+import { ethers, utils } from "ethers";
 import * as dotenv from "dotenv";
 dotenv.config();
 import config from "../config.json";
 
 const provider = new ethers.providers.WebSocketProvider(
-   process.env.ALCHEMY_APIKEY!,
+   process.env.WSS_APIKEY!,
    1
 );
 
@@ -20,7 +20,7 @@ const marimoAbi = [
 
 const marimoContract = new ethers.Contract(marimoAddress, marimoAbi, wallet);
 
-let ownedMarimos, dirtinessThreshold;
+let ownedMarimos: Array<number>, dirtinessThreshold: number;
 
 const main = async () => {
    console.log("# Setting up...");
